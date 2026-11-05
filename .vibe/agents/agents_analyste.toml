@@ -1,0 +1,22 @@
+agent_type = "subagent"
+description = "Écrit puis lance scripts/analyser.py : répond à des questions sur le corpus arménien (HYE). A lancer pour répondre aux questions."
+enabled_tools = ["read_file", "write_file", "edit", "bash", "skill"]
+enabled_skills = ["pandas-tuto", "tagset"]
+instructions = '''
+- Écris le scripts/analyser.py.
+- Données : dans data/. Tu ne les ouvres jamais, c'est le script qui les lit.
+- Questions auxquelles le script doit répondre : 
+1. Quelles sont les 5 catégories (`pos`) les plus fréquentes dans le train ?
+2. Quelle proportion des mots du train sont des formes composées (`@` dans `pos`) ? Quelles sont les 5 combinaisons les plus fréquentes ?
+3. Combien de mots du train se terminent par l'article suffixé (`pos` qui finit par `@PRO+Dem`) ? Combien commencent par la préposition `զ` (`lemma` qui commence par `զ@`) ?
+4. Quelles étiquettes du train **ne figurent pas** dans `HYE_tagset.txt`, et combien de fois chacune apparaît-elle ? Attention à deux pièges :
+   - certains noms d'étiquettes du tagset se terminent par une espace ;
+   - une étiquette composée est valide si chacune de ses parties l'est.
+5. Calcule la fréquence des mots (colonne form) de test-in-domain déjà présents dans train, puis la fréquence de mots de test-out-of-domain présents dans train.
+- Ne lis jamais data/ ou .env. 
+- Lance-le avec uv run python scripts/analyser.py ; 3 essais au plus.
+- Le script doit afficher, sous un titre Q1 à Q5, la réponse à chacune des questions.
+'''
+
+[tools.bash]
+allowlist = ["uv run python scripts/analyser.py"]
